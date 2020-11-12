@@ -18,7 +18,7 @@ deck.append(('Joker', 'black'))
 deck.append(('Joker', 'colored'))
 random.shuffle(deck)
 
-#카드 나누기
+# 카드 나누기
 
 player = []
 computer = []
@@ -53,10 +53,11 @@ while True:
         selected = available[i]
         player.remove(selected)
         put.append(selected)
+        print()
     else:
         print("낼 수 있는 카드가 없어서 먹습니다.")
+        print()
         player.append(deck.pop())
-
 
     if len(player) == 0:
         print("플레이어 승!")
@@ -71,19 +72,19 @@ while True:
                 or card[1] == put[-1][1]
                 or card[0] == 'Joker'
                 or put[-1][0] == 'Joker'):
-            available.append(card)
-
-    print("낼 수 있는 카드 : ", available)
+                available.append(card)
 
     if len(available) > 0:
         selected = random.choice(available)
         computer.remove(selected)
         put.append(selected)
         print("컴퓨터가 ", selected, "를 냈습니다.")
+        print()
 
     else:
         print("낼 수 있는 카드가 없어서 먹습니다.")
         computer.append(deck.pop())
+        print()
 
     if len(computer) == 0:
         print("컴퓨터 승!")
