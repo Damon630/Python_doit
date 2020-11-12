@@ -41,7 +41,7 @@ def runGame():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 break
-            elif event.type == pygame.K_DOWN:
+            elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     person_dx = -5
                 elif event.key == pygame.K_RIGHT:
