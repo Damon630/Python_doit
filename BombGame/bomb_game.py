@@ -8,7 +8,7 @@ size = [600, 800]
 
 screen = pygame.display.set_mode(size)
 
-don = False
+done = False
 clock = pygame.time.Clock()
 
 
@@ -72,7 +72,7 @@ def runGame():
         screen.blit(person_image, person)
 
         for bomb in bombs:
-            if bomb['rect'].collidedict(person):
+            if bomb['rect'].colliderect(person):
                 done = True
             screen.blit(bomb_image, bomb['rect'])
 
