@@ -88,7 +88,52 @@ scr.onkeypress(move_bar_b_down, "Down")
 while True:
     ## 화면의 변화 업데이트 해주기 ##
     scr.update()
+
     # 핑퐁 볼 을 대각선으로 움직이기
+    ball.setx(ball.xcor() + ball.dx)
+    ball.sety(ball.ycor() + ball.dy)
+
     # 볼이 위 아래 벽에 부딪히면 튕기기
+    y_pos = src_height/2 - dot_radius
+    x_pos = src_width/2 - dot_radius
+
+    # 위벽
+    if ball.ycor() > y_pos:
+        ball.sety(y_pos)
+        ball.dy *= -1
+    # 아래벽
+    if ball.ycor() < -y_pos:
+        ball.sety(-y_pos)
+        ball.dy *= -1
+
+    # 볼이 좌우 벽에 도달했을 경우 가운데로 이동하고, x축 이동방향 전환
+    # 왼쪽 벽
+    if ball.xcor() > x_pos:
+        ball.goto(0, 0)
+        ball.dx *= -1
+
+    # 오른쪽 벽
+    if ball.xcor() > -x_pos:
+        ball.goto(0, 0)
+        ball.dx *= -1
+
+    # bar_b 볼을 튕기기
+    # 400 - 50(바와 벽의 간격) - 10 (바의 폭/2) - 10(공의 반지름) = 330
+    x_pos_bar_min = src_width / 2 - bar_gab - dot_radius - dot_radius
+    x_pos_bar_max = src_width / 2 - bar_gab
+    y_pos_bar = 40
+    if ball.xcor() > x_pos_bar_min and ball.xcor() < x_pos_bar_max and ball.ycor() < (
+            bar_b.ycor() + y_pos_bar) and ball.ycor() > (bar_b.ycor() - y_pos_bar):
+        # x좌표 330~350 까지를 부딪혔다고 판단하고, 330을 넘었을 경우
+        # 표면에서 부딪힌 것처럼 보이기 위해서 x좌표 330으로 볼을 이동
+        ball.setx(x_pos_bar_min)
+        ball.dx *= -1 #x축 이동방향 전환
+
+    # bar_a 볼 튕기기
+    if ball.xcor() < -x_pos_bar_min and ball.xcor() > -x_pos_bar_max and ball.ycor() < (
+            bar_a.ycor() + y_pos_bar) and ball.ycor() > (bar_a.ycor() - y_pos_bar):
+        ball.setx(-x_pos_bar_min)
+        ball.dx *= -1
+
     # 볼이 좌우 벽에 도달하면 점수를 세고 볼을 가운데로 옮기기
     # 볼이 핑퐁 바에 부딪혔을 경우 튕기기
