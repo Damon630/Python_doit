@@ -23,11 +23,40 @@ bar_gab = 50
 # 핑퐁바 폭
 bar_width = 4
 
+# 왼쪽 바
+bar_a = turtle.Turtle()
+bar_a.speed(0)
+bar_a.shape("square")
+# 점을 늘려서 바로 만들기
+bar_a.shapesize(stretch_wid=bar_width, stretch_len=1)
+bar_a.color("white")
+bar_a.penup()
+bar_a.goto(-(src_width/2 - bar_gab), 0) # -350
+
+#오른쪽 바
+bar_b = turtle.Turtle()
+bar_b.speed(0)
+bar_b.shape("square")
+bar_b.shapesize(stretch_wid=bar_width, stretch_len=1)
+bar_b.color("white")
+bar_b.penup()
+bar_b.goto((src_width/2 - bar_gab), 0) # 350
+
 #핑퐁 볼 이동 xy 픽셀
 ball_mov_pixel = 2
 
 # 핑퐁 볼 반지름, 핑퐁 바의 두께의 반
 dot_radius = 10
+
+# 핑퐁 볼 그리기
+ball = turtle.Turtle()
+ball.speed(0)
+ball.shape("circle")
+ball.color("red")
+ball.penup() #이동하는 선을 그리지 않는다
+ball.goto(0, 0)
+ball.dx = ball_mov_pixel
+ball.dy = ball_mov_pixel
 
 ## 점수판 그리기
 # 점수
