@@ -1,17 +1,11 @@
 import turtle
+import os
 
 ### 화면에 아이템의 초기 이미지 그리기 ###
 ## 게임 화면창 그리기
 # 화면창 크기
 src_width = 800
 src_height = 600
-
-# 화면창 그리기
-scr = turtle.Screen()
-scr.title("Ping Pong")
-scr.bgcolor("black")
-scr.setup(width=src_width, height=src_height)
-scr.tracer(0)  # 화면의 tracing을 안하겠다
 
 ## 핑퐁 바 그리기
 # 키보드 입력에 의한 핑퐁바 이동 픽셀
@@ -22,6 +16,33 @@ bar_gab = 50
 
 # 핑퐁바 폭
 bar_width = 4
+
+# 핑퐁 볼 이동 xy 픽셀
+ball_mov_pixel = 2
+
+# 핑퐁 볼 반지름, 핑퐁 바의 두께의 반
+dot_radius = 10
+
+# 점수
+score_a = 0
+score_b = 0
+
+# 화면창 그리기
+scr = turtle.Screen()
+scr.title("Ping Pong")
+scr.bgcolor("black")
+scr.setup(width=src_width, height=src_height)
+scr.tracer(0)  # 화면의 tracing을 안하겠다
+
+# 핑퐁 볼 그리기
+ball = turtle.Turtle()
+ball.speed(0)
+ball.shape("circle")
+ball.color("red")
+ball.penup()  # 이동하는 선을 그리지 않는다
+ball.goto(0, 0)
+ball.dx = ball_mov_pixel
+ball.dy = ball_mov_pixel
 
 
 # 핑퐁 바 그리는 함수
@@ -42,27 +63,15 @@ bar_a = draw_bar(-(src_width / 2 - bar_gab))
 # 오른쪽 바
 bar_b = draw_bar((src_width / 2 - bar_gab))
 
-# 핑퐁 볼 이동 xy 픽셀
-ball_mov_pixel = 2
-
-# 핑퐁 볼 반지름, 핑퐁 바의 두께의 반
-dot_radius = 10
-
-# 핑퐁 볼 그리기
-ball = turtle.Turtle()
-ball.speed(0)
-ball.shape("circle")
-ball.color("red")
-ball.penup()  # 이동하는 선을 그리지 않는다
-ball.goto(0, 0)
-ball.dx = ball_mov_pixel
-ball.dy = ball_mov_pixel
 
 ## 점수판 그리기
-# 점수
-score_a = 0
-score_b = 0
-
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 250)
+pen.write("Player A: 0 Player B: 0", align="center", font=("Courier", 24, "normal"))
 
 ### 키보드 입력받고, 핑퐁 바 움직이기 ###
 ## 핑퐁 바 움직이기
@@ -111,11 +120,17 @@ while True:
     if ball.xcor() > x_pos:
         ball.goto(0, 0)
         ball.dx *= -1
+        score_a += 1
+        pen.clear()
+        pen.write(f"Player A: {score_a} Player B:{score_b}", align="center", font=("Courier", 24, "normal"))
 
     # 오른쪽 벽
-    if ball.xcor() > -x_pos:
+    if ball.xcor() < -x_pos:
         ball.goto(0, 0)
         ball.dx *= -1
+        score_b += 1
+        pen.clear()
+        pen.write(f"Player A: {score_a} Player B:{score_b}", align="center", font=("Courier", 24, "normal"))
 
     # bar_b 볼을 튕기기
     # 400 - 50(바와 벽의 간격) - 10 (바의 폭/2) - 10(공의 반지름) = 330
@@ -128,27 +143,11 @@ while True:
         # 표면에서 부딪힌 것처럼 보이기 위해서 x좌표 330으로 볼을 이동
         ball.setx(x_pos_bar_min)
         ball.dx *= -1 #x축 이동방향 전환
+        os.system("afplay bounce.wav&")
 
     # bar_a 볼 튕기기
     if ball.xcor() < -x_pos_bar_min and ball.xcor() > -x_pos_bar_max and ball.ycor() < (
             bar_a.ycor() + y_pos_bar) and ball.ycor() > (bar_a.ycor() - y_pos_bar):
         ball.setx(-x_pos_bar_min)
         ball.dx *= -1
-
-    ## 볼이 좌우 벽에 도달하면 점수를 세고 볼을 가운데로 옮기기
-    # 왼쪽 벽
-    if ball.xcor() > x_pos:
-        ball.goto(0, 0)
-        ball.dx *= -1
-        score_a += 1
-        pen.clear()
-        pen.write(f"Player A: {score_a} Player B:{score_b}", align="center", font=("Courier", 24, "normal"))
-
-    # 오른쪽 벽
-    if ball.xcor() < -x_pos:
-        ball.goto(0, 0)
-        ball.dx *= -1
-        score_b += 1
-        pen.clear()
-        pen.write(f"Player A: {score_a} Player B:{score_b}", align="center", font=("Courier", 24, "normal"))
-    # 볼이 핑퐁 바에 부딪혔을 경우 튕기기
+        os.system("afplay bounce.wav&")
