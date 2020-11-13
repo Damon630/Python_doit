@@ -63,7 +63,27 @@ ball.dy = ball_mov_pixel
 score_a = 0
 score_b = 0
 
+
 ### 키보드 입력받고, 핑퐁 바 움직이기 ###
+## 핑퐁 바 움직이기
+def move_bar_a_up():
+    bar_a.sety(bar_a.ycor() + bar_mov_pixel)  # 위로 20px
+
+def move_bar_a_down():
+    bar_a.sety(bar_a.ycor() - bar_mov_pixel)  # 아래로 20px
+
+def move_bar_b_up():
+    bar_b.sety(bar_b.ycor() + bar_mov_pixel)  # 위로 20px
+
+def move_bar_b_down():
+    bar_b.sety(bar_b.ycor() - bar_mov_pixel)  # 아래로 20px
+
+## 키보드 입력받기
+scr.listen()
+scr.onkeypress(move_bar_a_up, "w")
+scr.onkeypress(move_bar_a_down, "s")
+scr.onkeypress(move_bar_b_up, "Up")
+scr.onkeypress(move_bar_b_down, "Down")
 
 while True:
     ## 화면의 변화 업데이트 해주기 ##
