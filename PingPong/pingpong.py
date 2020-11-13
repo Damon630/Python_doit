@@ -135,5 +135,20 @@ while True:
         ball.setx(-x_pos_bar_min)
         ball.dx *= -1
 
-    # 볼이 좌우 벽에 도달하면 점수를 세고 볼을 가운데로 옮기기
+    ## 볼이 좌우 벽에 도달하면 점수를 세고 볼을 가운데로 옮기기
+    # 왼쪽 벽
+    if ball.xcor() > x_pos:
+        ball.goto(0, 0)
+        ball.dx *= -1
+        score_a += 1
+        pen.clear()
+        pen.write(f"Player A: {score_a} Player B:{score_b}", align="center", font=("Courier", 24, "normal"))
+
+    # 오른쪽 벽
+    if ball.xcor() < -x_pos:
+        ball.goto(0, 0)
+        ball.dx *= -1
+        score_b += 1
+        pen.clear()
+        pen.write(f"Player A: {score_a} Player B:{score_b}", align="center", font=("Courier", 24, "normal"))
     # 볼이 핑퐁 바에 부딪혔을 경우 튕기기
